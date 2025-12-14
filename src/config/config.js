@@ -18,7 +18,9 @@ const API_ENDPOINTS = [
 ];
 
 const defaultConfig = {
-  server: { port: 8045, host: '127.0.0.1' },
+  server: { port: 8045, host: '0.0.0.0' },
+  database: { filename: './data/antigravity.db' },
+  redis: { host: 'localhost', port: 6379, password: '', db: 0 },
   api: {
     url: 'https://daily-cloudcode-pa.sandbox.googleapis.com/v1internal:streamGenerateContent?alt=sse',
     modelsUrl: 'https://daily-cloudcode-pa.sandbox.googleapis.com/v1internal:fetchAvailableModels',
@@ -34,7 +36,13 @@ const defaultConfig = {
 let config;
 try {
   config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-  // 确保 api.endpoints 存在
+  // 确保必要的配置项存在
+  if (!config.database) {
+    config.database = defaultConfig.database;
+  }
+  if (!config.redis) {
+    config.redis = defaultConfig.redis;
+  }
   if (!config.api) {
     config.api = defaultConfig.api;
   } else if (!config.api.endpoints) {

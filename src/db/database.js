@@ -28,7 +28,8 @@ class SQLiteDatabase {
       this.db.close();
     }
 
-    const dbPath = config.filename || './data/antigravity.db';
+    // 支持 config 为 undefined 或空对象的情况
+    const dbPath = (config && config.filename) ? config.filename : './data/antigravity.db';
     
     // 确保数据目录存在
     const dbDir = path.dirname(dbPath);
