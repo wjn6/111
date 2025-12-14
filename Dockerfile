@@ -17,7 +17,7 @@ FROM base AS dependencies
 COPY package.json package-lock.json* ./
 
 # 安装生产环境依赖（包括编译 better-sqlite3）
-RUN npm ci --only=production
+RUN npm install --only=production
 
 
 # --- 生产/运行阶段 (Production/Runtime Stage) ---
